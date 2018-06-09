@@ -1,7 +1,8 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-gitignore
+#gitignore
 .gitignore
+
 
 # dependencies
 /node_modules

@@ -32,6 +32,12 @@
     "cross-env": "^5.1.6",
     "react-app-rewire-less": "^2.1.1",
     "react-app-rewired": "^1.5.2",
-    "redux-devtools": "^3.4.1"
+    "redux-devtools": "^3.4.1",
+    "cz-conventional-changelog": "^2.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
