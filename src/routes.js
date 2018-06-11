@@ -6,6 +6,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import { RouteWithSubRoutes } from 'components';
 import { Login } from 'components';
 import { Layout } from 'antd';
+/*import Web from 'modules/modules@0.0.1/Web.r';*/
 import Web from 'modules/Web.r';
 import { wrapPage } from 'utils';
 const routes = [

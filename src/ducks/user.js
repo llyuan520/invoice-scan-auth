@@ -80,7 +80,14 @@ export const login = dispatch => async ({username,password,success,fail})=>{
 }
 
 export const logout = dispatch => async ()=>{
-
     //登出
     dispatch(loggedIn.logout())
+}
+
+export const saveToken = dispatch => async (data) =>{
+    try {
+        dispatch(token.increment(data))
+    }catch (err){
+        console.log(err)
+    }
 }

@@ -5,7 +5,7 @@ import React,{Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {Sider,RouteWithSubRoutes,Footer, Header} from 'components'
-import {Switch,Route,Link } from 'react-router-dom';
+import {withRouter,Switch,Route,Link } from 'react-router-dom';
 import {logout} from 'ducks/user'
 import { Layout,Tabs } from 'antd';
 import {composeMenus} from 'utils'
@@ -169,8 +169,8 @@ class Web extends Component{
         )
     }
 }
-export default connect(state=>({
+export default withRouter(connect(state=>({
     loggedIn:state.user.get('loggedIn')
 }),dispatch=>({
     logout:logout(dispatch)
-}))(Web)
+}))(Web))
