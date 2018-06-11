@@ -30,65 +30,70 @@ class ISASider extends Component {
     }
 
     getNavMenuItems=(menusData)=>{
-
         if (!menusData) {
             return [];
         }
         return menusData.map((item) => {
-            if (!item.name || item.path === '/web/home') {
+
+            if (!item.name  || item.path === '/web/home' ) {
                 return null;
             }
 
             if (item.children && item.children.some(child => child.name)) {
 
-                return (
-                    <SubMenu
-                        title={
-                            item.icon ? (
-                                <span>
+                return this.getSubMenu(item)
+            }
+            return this.getMenuItem(item)
+        });
+    }
+
+    getSubMenu=(item)=>{
+        return (
+            <SubMenu
+                title={
+                    item.icon ? (
+                        <span>
                               <Icon type={item.icon} />
                               <span>{item.name}</span>
                             </span>
-                            ) : item.name
-                        }
-                        key={item.key || item.path}
-                    >
-                        {this.getNavMenuItems(item.children)}
-                    </SubMenu>
-                )
-            }
-
-            const icon = item.icon && <Icon type={item.icon} />;
-
-            return (
-                <Menu.Item key={item.key || item.path}>
-                    <Link
-                        to={item.path}
-                        target={item.target}
-                        replace={item.path === this.props.location.pathname}
-                    >
-                        {icon}<span>{item.name}</span>
-                    </Link>
-                </Menu.Item>
-            )
-
-        });
+                    ) : item.name
+                }
+                key={item.key || item.path}
+            >
+                {
+                    this.getNavMenuItems(item.children)
+                }
+            </SubMenu>
+        )
     }
+
+    getMenuItem=(item)=>{
+        const icon = item.icon && <Icon type={item.icon} />;
+        return (
+            <Menu.Item key={item.key || item.path}>
+                <Link
+                    to={item.path}
+                    target={item.target}
+                    replace={item.path === this.props.location.pathname}
+                >
+                    {icon}<span>{item.name}</span>
+                </Link>
+            </Menu.Item>
+        )
+    }
+
     onOpenChange = (openKeys) => {
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
-        if (openKeys.indexOf(latestOpenKey) === -1) {
-            this.mounted && this.setState({
-                openKeys
-            });
+        if (this.props.menusData.indexOf(latestOpenKey) === -1) {
+            this.setState({openKeys});
         } else {
-            this.mounted && this.setState({
+            this.setState({
                 openKeys: latestOpenKey ? [latestOpenKey] : [],
             });
         }
     }
-
     handleClick = (e) => {
-        this.mounted && this.setState({
+        this.setState({
             selectedPath: e.key,
         });
     }
@@ -107,15 +112,10 @@ class ISASider extends Component {
             openKeys =[...openKeys,`${openKeys}/${url_three}`]
         }
 
-        this.mounted && this.setState({
+        this.setState({
             openKeys,
             selectedPath: path.indexOf('/web/home') === -1 ? openKeys[1] : openKeys[0]
         });
-    }
-
-    mounted=true
-    componentWillUnmount(){
-        this.mounted=null;
     }
     componentDidMount(){
         // 刷新时根据地址显示导航
@@ -123,7 +123,7 @@ class ISASider extends Component {
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.collapsed){
-            this.mounted && this.setState({
+            this.setState({
                 openKeys:[]
             });
         }else{
@@ -131,7 +131,9 @@ class ISASider extends Component {
             this.resetSelectedNav(nextProps)
         }
     }
+
     render() {
+
         return (
             <Sider
                 trigger={null}
@@ -141,11 +143,11 @@ class ISASider extends Component {
             >
                 <div className="logo">
                     {/*<img src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" alt="logo" />
-                    <img alt="Ant Design" src="https://gw.alipayobjects.com/zos/rmsportal/DkKNubTaaVsKURhcVGkh.svg" />*/}
+                     <img alt="Ant Design" src="https://gw.alipayobjects.com/zos/rmsportal/DkKNubTaaVsKURhcVGkh.svg" />*/}
                     {/*<Link to="/">
-                        <img src={logo} alt="logo" />
-                        <h1>碧桂园增值税管理系统</h1>
-                    </Link>*/}
+                     <img src={logo} alt="logo" />
+                     <h1>碧桂园增值税管理系统</h1>
+                     </Link>*/}
                 </div>
                 <Menu
                     theme="dark"
@@ -156,7 +158,9 @@ class ISASider extends Component {
                     openKeys={this.state.openKeys}
                     style={{ marginTop: '16px', width: '100%' }}
                 >
-                    {this.getNavMenuItems(this.props.menusData)}
+                    {
+                        this.getNavMenuItems(this.props.menusData)
+                    }
                 </Menu>
             </Sider>
         )

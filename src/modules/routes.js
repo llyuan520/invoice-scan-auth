@@ -35,11 +35,59 @@ const routes = [
         icon:'file',
         exact:true,
         children: [
-            {
+            {   //为了测试多级菜单
+                /*path:'/web/invoice/meu',
+                name:'三级菜单',
+                icon:'file',
+                exact:true,
+                children: [
+                    {   //为了测试多级菜单
+                        path:'/web/invoice/meu/four',
+                        name:'四级菜单',
+                        icon:'file',
+                        exact:true,
+                        children: [
+                            {
+
+                                path:'/web/invoice/meu/four/four1',
+                                component:wrapPage('四菜单一', Oauth2Server),
+                                name:'四菜单一',
+                                exact:true,
+
+                            },{
+                                path:'/web/invoice/meu/four/four2',
+                                component:wrapPage('四菜单二', Oauth2Client),
+                                name:'四菜单二',
+                                exact:true,
+                            },{
+                                path:'/web/invoice/meu/fou',
+                                redirect:true,
+                                to:'/web/invoice/meu/fou/four1'
+                            }
+                        ]
+                    },{
+                        path:'/web/invoice/meu/meu1',
+                        component:wrapPage('菜单一', Auth),
+                        name:'菜单一',
+                        exact:true,
+
+                    },{
+                        path:'/web/invoice/meu/meu2',
+                        component:wrapPage('菜单二', Ocr),
+                        name:'菜单二',
+                        exact:true,
+                    },{
+                        path:'/web/invoice/meu',
+                        redirect:true,
+                        to:'/web/invoice/meu/meu1'
+                    }
+                ]
+            },{*/
                 path:'/web/invoice/auth',
                 component:wrapPage('发票验真', Auth),
                 name:'发票验真',
                 exact:true,
+
             },{
                 path:'/web/invoice/ocr',
                 component:wrapPage('影像识别', Ocr),
