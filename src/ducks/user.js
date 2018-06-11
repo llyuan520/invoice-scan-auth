@@ -2,6 +2,7 @@
  * Created by liuliyuan on 2018/6/8.
  */
 import {createActions,handleActions} from 'redux-actions';
+//TODO:  npm immutable 的时候必须加上版本号 4.0.0-rc.9  要不然 getIn() 用不了
 import {fromJS} from 'immutable';
 import {request} from 'utils'
 export const {personal,token,loggedIn} = createActions({
@@ -24,7 +25,7 @@ const initialState = fromJS({
     /**用户个人信息*/
     personal:{
         realname:null,
-        username:null,
+        username:'欢迎您！',
         userId:null,
         phoneNumber:null,
         companyName: null,
@@ -62,7 +63,7 @@ export const login = dispatch => async ({username,password,success,fail})=>{
             request.testSuccess(res.data,data=>{
                 dispatch(token.increment(data.token))
                 //获取用户信息
-                dispatch(personal.increment(data))
+                dispatch(personal.increment({...data,username:username}))
                 dispatch(loggedIn.login())
                 //执行登录成功回调
                 success && success()
