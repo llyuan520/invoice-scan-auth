@@ -10,6 +10,7 @@ import Login from './Login'
 import Header from './Header'
 import Footer from './Footer'
 import Sider from './Sider'
+import NoticeIcon from './NoticeIcon';
 
 export {
     RouteWithSubRoutes,
@@ -18,4 +19,5 @@ export {
     Header,
     Footer,
     Sider,
+    NoticeIcon,
 }
