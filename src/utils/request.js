@@ -64,8 +64,8 @@ request.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     if(request.getToken()){
         config.headers={
-            Authorization:request.getToken(),
-            'X-Requested-With': 'XMLHttpRequest'
+            //Authorization:request.getToken(),
+            'jwt-token':request.getToken(),
         }
         if(config.method==='get'){
             let obj = config.params;

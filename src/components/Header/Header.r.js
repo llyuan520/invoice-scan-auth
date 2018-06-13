@@ -11,8 +11,8 @@ import NoticeIcon from '../NoticeIcon';
 import { request } from 'utils'
 import './header.less'
 //模拟数据
-import mockAxios from '../../components/NoticeIcon/__mocks__/api.mock'
-mockAxios(request);
+/*import mockAxios from '../../components/NoticeIcon/__mocks__/api.mock'
+mockAxios(request);*/
 
 const { Header} = Layout;
 const confirm = Modal.confirm;

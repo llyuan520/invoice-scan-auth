@@ -35,6 +35,7 @@ const initialState = fromJS({
 
     /**是否登录成功*/
     loggedIn:false,
+
 })
 export default handleActions({
     [personal.increment]:(state,{payload})=>{
