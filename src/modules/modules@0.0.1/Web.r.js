@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 import {Sider,RouteWithSubRoutes,Footer, Header} from 'components'
 import {withRouter,Switch,Route } from 'react-router-dom';
 import {logout} from 'ducks/user'
-import { Layout } from 'antd';
-import {composeMenus} from 'utils'
+import { Layout,message } from 'antd';
+import {composeMenus,request} from 'utils'
 import routes from '../routes'
 import '../index.less'
 
@@ -28,6 +28,7 @@ class Web extends Component{
         super(props);
         this.state = {
             collapsed:false,
+            result:[],
         };
     }
 
@@ -44,6 +45,21 @@ class Web extends Component{
         }
     }
 
+    getMenu = () =>{
+        request.get('/menu',{
+        })
+            .then(({data}) => {
+                if(data.status===200){
+                    const result = data.result.data;
+                    console.log(result)
+                }else{
+                    message.error(data.message)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
+    }
 
     mounted=true
     componentWillUnmount(){
@@ -51,6 +67,7 @@ class Web extends Component{
     }
     componentWillMount(){
         this.checkLoggedIn(this.props)
+        this.getMenu();
     }
     componentWillReceiveProps(nextProps){
         this.checkLoggedIn(nextProps)
