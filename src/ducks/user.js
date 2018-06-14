@@ -4,7 +4,6 @@
 import {createActions,handleActions} from 'redux-actions';
 //TODO:  npm immutable 的时候必须加上版本号 4.0.0-rc.9  要不然 getIn() 用不了
 import {fromJS} from 'immutable';
-import {request} from 'utils'
 export const {personal,token,loggedIn} = createActions({
     PERSONAL:{
         /**增加*/
@@ -52,34 +51,6 @@ export default handleActions({
         return initialState
     }
 },initialState)
-
-export const login = dispatch => async ({username,password,success,fail})=>{
-    try {
-        //正常登录获取token
-        await request.post('/authorize/login',{
-            username,
-            password,
-            token_type:'jwt',
-        }).then(res=>{
-            request.testSuccess(res.data,data=>{
-                dispatch(token.increment(data.token))
-                //获取用户信息
-                dispatch(personal.increment({...data,username:username}))
-                dispatch(loggedIn.login())
-                //执行登录成功回调
-                success && success()
-            },err=>{
-                fail && fail(err)
-            })
-        }).catch(err=>{
-            console.log(err)
-            fail && fail(err.message)
-        })
-
-    }catch(err) {
-        console.log(err)
-    }
-}
 
 export const logout = dispatch => async ()=>{
     //登出

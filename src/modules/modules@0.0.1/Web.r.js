@@ -5,12 +5,13 @@ import React,{Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {Sider,RouteWithSubRoutes,Footer, Header} from 'components'
-import {withRouter,Switch,Route } from 'react-router-dom';
+import {Switch,Route } from 'react-router-dom';
 import {logout} from 'ducks/user'
 import { Layout,message } from 'antd';
 import {composeMenus,request} from 'utils'
 import routes from '../routes'
 import '../index.less'
+
 
 const { Content } = Layout;
 const menusData = composeMenus(routes);
@@ -105,8 +106,9 @@ class Web extends Component{
         )
     }
 }
-export default withRouter(connect(state=>({
+
+export default connect(state=>({
     loggedIn:state.user.get('loggedIn')
 }),dispatch=>({
     logout:logout(dispatch)
-}))(Web))
+}))(Web)

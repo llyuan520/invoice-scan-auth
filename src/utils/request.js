@@ -9,23 +9,16 @@
  */
 import Axios from 'axios';
 import {notification,message} from 'antd'
-import {logout} from 'ducks/user'
+import { store } from '../store';
+import { logout } from '../services/api'
 
 const request = Axios.create({
     baseURL:window.baseURL,
     timeout:20000,
 });
-request.getToken = ()=>{
-    return request.getState().user.get('token') || false
-}
-request.testSuccess = (data,success,fail) => {
-    if(data.status===200){
-        success && success(data.result)
-    }else{
-        console.log(data.msg);
-        fail && fail(data.msg)
-    }
-};
+/*request.getToken = ()=>{
+    return store.getState().user.get('token') || false
+}*/
 
 const codeMessage = {
     200: '服务器成功返回请求的数据。',
@@ -61,11 +54,12 @@ function checkStatus(response) {
 }
 
 request.interceptors.request.use(function (config) {
+
     // 在发送请求之前做些什么
-    if(request.getToken()){
+    //if(request.getToken()){
         config.headers={
             //Authorization:request.getToken(),
-            'jwt-token':request.getToken(),
+            'jwt-token':store.getState().user.get('token') || false,
         }
         if(config.method==='get'){
             let obj = config.params;
@@ -93,7 +87,7 @@ request.interceptors.request.use(function (config) {
                 ...config.params
             }
         }
-    }
+    //}
 
     /*config.params = {
      ...config.params,
@@ -127,7 +121,7 @@ request.interceptors.response.use(function (response) {
                 break
             case 401:
                 // 返回 401 清除token信息并跳转到登录页面
-                request.dispatch && logout(request.dispatch)()
+                logout()
                 error.message = '登录超时,请重新登录'
                 break;
             case 403:
