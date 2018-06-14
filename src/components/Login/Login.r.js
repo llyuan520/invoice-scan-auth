@@ -2,15 +2,20 @@
  * Created by liuliyuan on 2018/6/8.
  */
 import React,{Component} from 'react';
+import PropTypes from 'prop-types'
 import {Form,Input,Button} from 'antd'
 import {connect} from 'react-redux';
 import { compose } from 'redux';
-import {login} from 'ducks/user'
+import { accountLogin } from 'services/api';
 import './index.less';
 
 const FormItem = Form.Item;
 
 class Login extends Component {
+    static propTypes={
+        login:PropTypes.func.isRequired
+    }
+
     state={
         error:{
             visible:false,
@@ -21,8 +26,8 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e && e.preventDefault();
-        const {login} = this.props;
-        this.props.form.validateFields((err, values) => {
+        const {form,login} = this.props;
+        form.validateFields((err, values) => {
             if (!err) {
                 this.toggleLoading(true)
                 login({
@@ -45,21 +50,26 @@ class Login extends Component {
             loading:b
         })
     }
-    setError=msg=>{
+    hiddenErr = () => {
+        this.mount && this.setState(prevState=>({
+            error:{
+                visible:false
+            }
+        }))
+    }
+    setError=(msg, time = 4000)=>{
+        clearTimeout(this.timer);
         this.setState({
             error:{
                 visible:true,
                 msg
             }
         },()=>{
-            setTimeout(()=>{
-                this.mount && this.setState(prevState=>({
-                    error:{
-                        ...prevState.error,
-                        visible:false
-                    }
-                }))
-            },4000)
+            if(time){
+                this.timer = setTimeout(()=>{
+                    this.hiddenErr();
+                },time)
+            }
         })
     }
     checkLoggedIn= props =>{
@@ -131,7 +141,7 @@ const enhance = compose(
     connect(state=>({
         loggedIn:state.user.get('loggedIn')
     }),dispatch=>({
-        login:login(dispatch),
+        login:accountLogin,
     })),
     Form.create()
 )
